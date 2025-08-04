@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS2 Arbitrage Hunter</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app-container">
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <i class="fas fa-money-bill-wave"></i>
+                <h1>CS2 Arbitrage Hunter</h1>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="exchange-rate">
+                <span class="rate-label">1 USDT = </span>
+                <span class="rate-value" id="exchange-rate">Loading...</span>
+                <span class="rate-currency"> IRR</span>
+            </div>
+            <button id="refresh-btn" class="refresh-button">
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </button>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="filters-container">
+            <div class="filters-header">
+                <h2>Filters</h2>
+                <button id="clear-filters">Clear All</button>
+            </div>
+            <div class="filter-group">
+                <label>Min Profit %</label>
+                <input type="range" id="profit-slider" min="0" max="100" value="10">
+                <div class="slider-value"><span id="profit-value">10</span>%</div>
+            </div>
+            <div class="filter-group">
+                <label>Category</label>
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                    <option value="Knife">Knife</option>
+                    <option value="Gloves">Gloves</option>
+                    <option value="Rifle">Rifle</option>
+                    <option value="Sniper Rifle">Sniper Rifle</option>
+                    <option value="Pistol">Pistol</option>
+                    <option value="SMG">SMG</option>
+                    <option value="Shotgun">Shotgun</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Quality</label>
+                <select id="quality-filter">
+                    <option value="">All Qualities</option>
+                    <option value="Factory New">Factory New</option>
+                    <option value="Minimal Wear">Minimal Wear</option>
+                    <option value="Field-Tested">Field-Tested</option>
+                    <option value="Well-Worn">Well-Worn</option>
+                    <option value="Battle-Scarred">Battle-Scarred</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Min Price ($)</label>
+                <input type="number" id="min-price" placeholder="Min Price">
+            </div>
+            <div class="filter-group">
+                <label>Max Price ($)</label>
+                <input type="number" id="max-price" placeholder="Max Price">
+            </div>
+            <div class="filter-group checkbox-group">
+                <label>
+                    <input type="checkbox" id="stattrak-filter">
+                    StatTrak™ Only
+                </label>
+            </div>
+            <div class="filter-group checkbox-group">
+                <label>
+                    <input type="checkbox" id="stickers-filter">
+                    Has Stickers
+                </label>
+            </div>
+        </div>
+
+        <div class="items-container">
+            <div class="items-header">
+                <div class="items-count">Found <span id="items-count">0</span> items</div>
+                <div class="items-sort">
+                    <label>Sort By:</label>
+                    <select id="sort-by">
+                        <option value="profit_desc">Profit % (High to Low)</option>
+                        <option value="profit_asc">Profit % (Low to High)</option>
+                        <option value="price_desc">Price (High to Low)</option>
+                        <option value="price_asc">Price (Low to High)</option>
+                        <option value="name_asc">Name (A to Z)</option>
+                        <option value="name_desc">Name (Z to A)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="items-grid" class="items-grid">
+                <!-- Items will be populated here via JavaScript -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading items...</p>
+                </div>
+            </div>
+
+            <div id="no-items" class="no-items" style="display: none;">
+                <i class="fas fa-search"></i>
+                <p>No items found matching your filters</p>
+                <button id="reset-filters">Reset Filters</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div>&copy; 2025 CS2 Arbitrage Hunter</div>
+        <div>Exchange rate last updated: <span id="last-updated">-</span></div>
+    </footer>
+</div>
+
+<template id="item-template">
+    <div class="item-card">
+        <div class="item-header">
+            <div class="item-category">Category</div>
+            <div class="item-quality">Quality</div>
+        </div>
+        <div class="item-image">
+            <img src="" alt="">
+        </div>
+        <div class="item-name">Item Name</div>
+        <div class="item-float">Float: 0.0000</div>
+        <div class="item-prices">
+            <div class="buy-price">
+                <span class="price-label">Buy:</span>
+                <span class="price-value">$0.00</span>
+            </div>
+            <div class="sell-price">
+                <span class="price-label">Sell:</span>
+                <span class="price-value">$0.00</span>
+            </div>
+        </div>
+        <div class="item-profit">
+            <div class="profit-amount">+$0.00</div>
+            <div class="profit-percentage">+0%</div>
+        </div>
+        <div class="item-marketplace">Marketplace</div>
+        <div class="item-stickers">
+            <!-- Stickers will be populated here -->
+        </div>
+    </div>
+</template>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
